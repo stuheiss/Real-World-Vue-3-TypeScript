@@ -12,6 +12,7 @@ import { EventItem } from '../types'
 
 import EventCard from '../components/EventCard.vue'
 import EventService from '../services/EventService'
+import { fold } from 'fp-ts/lib/Either'
 
 export default defineComponent({
   name: 'EventList',
@@ -24,13 +25,20 @@ export default defineComponent({
     }
   },
   created() {
-    EventService.getEvents()
-      .then(response => {
-        this.events = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    // EventService.getEvents()
+    //   .then(response => {
+    //     this.events = response.data
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+    EventService.getEventsTE().then(
+      fold(
+        (err: Error) => console.log(err),
+        // FIXME: what is correct type for res?
+        (res: any) => (this.events = res.data)
+      )
+    )
   }
 })
 </script>
