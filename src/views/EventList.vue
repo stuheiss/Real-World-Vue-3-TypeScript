@@ -9,6 +9,8 @@
 import { defineComponent } from 'vue'
 // eslint-disable-next-line no-unused-vars
 import { EventItem } from '../types'
+// eslint-disable-next-line no-unused-vars
+import { AxiosResponse } from 'axios'
 
 import EventCard from '../components/EventCard.vue'
 import EventService from '../services/EventService'
@@ -35,8 +37,7 @@ export default defineComponent({
     EventService.getEventsTE().then(
       fold(
         (err: Error) => console.log(err),
-        // FIXME: what is correct type for res?
-        (res: any) => (this.events = res.data)
+        (res: AxiosResponse) => (this.events = res.data)
       )
     )
   }

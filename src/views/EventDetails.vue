@@ -12,6 +12,8 @@ import { defineComponent } from 'vue'
 import { EventItem } from '../types'
 import EventService from '../services/EventService'
 import { fold } from 'fp-ts/lib/Either'
+// eslint-disable-next-line no-unused-vars
+import { AxiosResponse } from 'axios'
 export default defineComponent({
   props: {
     id: {
@@ -35,8 +37,7 @@ export default defineComponent({
     EventService.getEventTE(this.id).then(
       fold(
         (err: Error) => console.log(err),
-        // FIXME: what is correct type for res?
-        (res: any) => (this.event = res.data)
+        (res: AxiosResponse) => (this.event = res.data)
       )
     )
   }

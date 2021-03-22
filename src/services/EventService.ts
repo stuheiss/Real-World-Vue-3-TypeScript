@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { taskEither } from 'fp-ts'
 
 const apiClient: AxiosInstance = axios.create({
@@ -14,8 +14,8 @@ const apiClient: AxiosInstance = axios.create({
 // implements get
 const apiClientTE = {
   get: (path: string) =>
-    taskEither.tryCatch<Error, { name: string }>(
-      () => apiClient.get(path),
+    taskEither.tryCatch<Error, AxiosResponse>(
+      () => apiClient.get(String(path)),
       reason => new Error(String(reason))
     )()
 }
@@ -32,13 +32,13 @@ export default {
   getEvents() {
     return apiClient.get('/events')
   },
-  getEvent(id: String) {
+  getEvent(id: string) {
     return apiClient.get('/events/' + id)
   },
   getEventsTE() {
     return apiClientTE.get('/events')
   },
-  getEventTE(id: String) {
+  getEventTE(id: string) {
     return apiClientTE.get('/events/' + id)
   }
 }
